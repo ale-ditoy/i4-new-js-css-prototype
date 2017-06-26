@@ -1,0 +1,13 @@
+{
+    "name": "ditoy/i4-vuejs-prototype",
+    "description": "a static prototype for a vue.js based i4",
+    "type": "project",
+    "license": "Proprietary",
+    "authors": [
+        {
+            "name": "ale",
+            "email": "rimoldi@ditoy.com"
+        }
+    ],
+    "require": {}
+}
