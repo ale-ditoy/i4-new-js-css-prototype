@@ -2,6 +2,7 @@
 function debug($label, $value) {
 	echo("<pre>$label: ".str_replace('<', '&lt;', $print_r($value, 1))."</pre>\n");
 }
+
 class Id {
 	public static function next() {
 		static $id = 0;
@@ -9,6 +10,7 @@ class Id {
 		return $id;
 	}
 }
+
 class Text
 {
 	private $type = null;
