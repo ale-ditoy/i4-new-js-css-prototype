@@ -9,5 +9,13 @@
             "email": "rimoldi@ditoy.com"
         }
     ],
-    "require": {}
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:ditoy/php-tiny-template"
+        }
+    ],
+    "require": {
+        "ditoy/php-tiny-template": "dev-master"
+    }
 }
