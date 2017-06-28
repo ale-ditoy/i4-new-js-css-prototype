@@ -59,10 +59,23 @@ class Aggregator
     }
 }
 
-$content = new Aggregator();
-$content->add(new Text('text', 'title', 'h1'));
-$content->add(new Text('textarea', "<ul>\n<li>first item</li>\n<li>a second one</li>\n</ul>"));
-$content->add(new Image('img/tv-test.png'));
+class Content
+{
+    private $aggregator = null;
+    public function __construct($aggregator) {
+        $this->aggregator = $aggregator;
+    }
+    public function render() {
+        return $this->aggregator->render();
+    }
+}
+
+$aggregator = new Aggregator();
+$aggregator->add(new Text('text', 'title', 'h1'));
+$aggregator->add(new Text('textarea', "<ul>\n<li>first item</li>\n<li>a second one</li>\n</ul>"));
+$aggregator->add(new Image('img/tv-test.png'));
+
+$content = new Content($aggregator);
 
 $template = new \Ditoy\Tiny\Template();
 $template->set('content', $content);
@@ -71,4 +84,3 @@ if (file_exists('project/template/index.php')) {
 } else {
     echo $template->fetch('template/index.php');;
 }
-?>
