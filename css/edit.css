@@ -1,0 +1,27 @@
+.i4-edit {
+    position:relative;
+}
+.i4-edit-asterisk {
+    background-color:red;
+    width:50px;
+    min-height:20px;
+    position:absolute;
+    left:-50px;
+}
+.i4-edit-toolbar {
+    font-weight:normal;
+    position:absolute;
+    left:0px;
+    display:none;
+    background-color:white;
+    font-size:14pt;
+    color:black;
+}
+.i4-edit-overlay {
+    position:absolute;
+    left:0px;
+    display:none;
+    background-color:green;
+    opacity:0.3;
+    /* z-index:1000; */
+}
