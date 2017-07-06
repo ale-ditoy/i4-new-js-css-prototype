@@ -30,45 +30,13 @@ class Text
         $this->encloser = new ContentEncloser();
     }
     public function render() {
+        $this->encloser->addClass('i4-edit-text');
         if ($this->type == 'text') {
             $this->encloser->setTag($this->style);
             return $this->encloser->renderOpen().$this->content.$this->encloser->renderClose();
         } elseif ($this->type == 'textarea') {
             return $this->encloser->renderOpen()."\n".$this->content."\n".$this->encloser->renderClose();
         }
-    }
-}
-
-class ContentEncloser
-{
-    private $tag = 'div';
-    public function setTag($tag) { $this->tag = $tag; }
-    private $id = null;
-    public function setId($id) { $this->id = $id; }
-    private $class = [];
-    public function addClass($class) { $this->class[] = $class; }
-    private $data = [];
-    public function addData($key, $data) { $this->data[$key] = $value; }
-
-    public function renderOpen() {
-        $result = [];
-        $result[] = $this->tag;
-        if (isset($this->id)) {
-            $result[] = 'id = "'.$this->id.'"';
-        }
-        if (!empty($this->class)) {
-            $result[] = 'class = "'.implode(' ', $this->class).'"';
-        }
-        if (!empty($this->class)) {
-            $result[] = 'class = "'.implode(' ', $this->class).'"';
-        }
-        foreach ($this->data as $key => $value) {
-            $result[] = 'data-'.$key.' = "'.$this->value.'"';
-        }
-        return '<'.implode(' ', $result).'>';
-    }
-    public function renderClose() {
-        return '</'.$this->tag.'>';
     }
 }
 
@@ -106,6 +74,39 @@ class Aggregator
     }
 }
 
+class ContentEncloser
+{
+    private $tag = 'div';
+    public function setTag($tag) { $this->tag = $tag; }
+    private $id = null;
+    public function setId($id) { $this->id = $id; }
+    private $class = [];
+    public function addClass($class) { $this->class[] = $class; }
+    private $data = [];
+    public function addData($key, $data) { $this->data[$key] = $value; }
+
+    public function renderOpen() {
+        $result = [];
+        $result[] = $this->tag;
+        if (isset($this->id)) {
+            $result[] = 'id = "'.$this->id.'"';
+        }
+        if (!empty($this->class)) {
+            $result[] = 'class = "'.implode(' ', $this->class).'"';
+        }
+        if (!empty($this->class)) {
+            $result[] = 'class = "'.implode(' ', $this->class).'"';
+        }
+        foreach ($this->data as $key => $value) {
+            $result[] = 'data-'.$key.' = "'.$this->value.'"';
+        }
+        return '<'.implode(' ', $result).'>';
+    }
+    public function renderClose() {
+        return '</'.$this->tag.'>';
+    }
+}
+
 class Content
 {
     private $aggregator = null;
@@ -131,13 +132,16 @@ $content = new Content($aggregator);
 $script = [];
 if (array_key_exists('edit', $_REQUEST)) {
     $script[] = 'js/edit.js';
+    $script[] = 'js/medium.min.js';
 }
 
 $css = [
-    'css/style.css',
-    'css/font-awesome.min.css'
+    'css/style.css'
 ];
 if (array_key_exists('edit', $_REQUEST)) {
+    $css[] = 'css/font-awesome.min.css';
+    $css[] = 'css/themes/default.min.css';
+    $css[] = 'css/medium-editor.min.css';
     $css[] = 'css/edit.css';
 }
 
