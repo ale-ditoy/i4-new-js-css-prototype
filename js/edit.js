@@ -34,11 +34,13 @@ var EditPlaceholder = function(height) {
     }.bind(this);
 
     this.DOM.onclick = function(e) {
-        this.DOM.parentNode.insertBefore(editToolbar.DOM, this.DOM);
-        editToolbar.show();
-        // first insert the toolbar, then read the offsetWeight
-        editToolbar.move((this.DOM.style.left, e.layerY - (editToolbar.DOM.offsetHeight / 2)) +'px');
-        editOverlay.hide()
+        if (!editInplaceToolbar.isVisible()) {
+            this.DOM.parentNode.insertBefore(editToolbar.DOM, this.DOM);
+            editToolbar.show();
+            // first insert the toolbar, then read the offsetWeight
+            editToolbar.move((this.DOM.style.left, e.layerY - (editToolbar.DOM.offsetHeight / 2)) +'px');
+            editOverlay.hide()
+        }
     }.bind(this);
 
     this.DOM.onmouseover = function(e) {
@@ -61,8 +63,13 @@ var EditToolbar = function() {
             var wrapper = getAncestorByClassName(e, 'i4-edit-wrapper');
             var edit = wrapper.getElementsByClassName('i4-edit')[0];
             if (edit.classList.contains('i4-edit-text')) {
-                edit.classList.add('i4-editable');
+                editInplaceToolbar.setTarget(edit);
                 var editor = new MediumEditor('.i4-editable');
+                editInplaceToolbar.setEditor(editor);
+                editInplaceToolbar.setSaveAction(function(e) {
+                    console.log('do the saving');
+                    this.close();
+                })
                 editInplaceToolbar.show();
                 wrapper.appendChild(editInplaceToolbar.DOM);
             }
@@ -82,10 +89,6 @@ var EditToolbar = function() {
         this.DOM.style.left = left;
         this.DOM.style.top = top;
     }.bind(this);
-
-    this.isVisible = function() {
-        return this.DOM.style.display == 'block';
-    }
 
     this.show = function() {
         this.DOM.style.display = 'block';
@@ -120,11 +123,44 @@ var editOverlay = new EditOverlay();
 var EditInplaceToolbar = function() {
     this.DOM = document.createElement('div');
     this.DOM.className = 'i4-edit-inplace-toolbar';
-    this.DOM.innerHTML = '<i class="fa fa-floppy-o" aria-hidden="true"> <i class="fa fa-close" aria-hidden="true"></i>';
+    this.DOM.innerHTML = '<i class="fa fa-floppy-o i4-edit-save" aria-hidden="true"> <i class="fa fa-close i4-edit-close" aria-hidden="true"></i>';
+    this.target = null;
+    this.editor = null;
 
-    this.DOM.onclick = function(e) {
-        console.log('this', this);
+    /**
+     * @param target the DOM element
+     */
+    this.setTarget = function(target) {
+        this.target = target;
+        this.target.classList.add('i4-editable');
+    }.bind(this);
+    this.setEditor = function(editor) {
+        this.editor = editor;
+    }.bind(this);
+
+    this.close = function(e) {
+        this.target.classList.remove('i4-editable');
+        this.editor.destroy();
         this.DOM.style.display = 'none';
+    }.bind(this);
+
+    this.save = function(e) {
+        // by default do nothing
+    }.bind(this);
+
+    var closeButton = this.DOM.getElementsByClassName('i4-edit-close')[0];
+    closeButton.onclick = function(e) {
+        this.close(e)
+    }.bind(this);
+
+    var saveButton = this.DOM.getElementsByClassName('i4-edit-save')[0];
+    saveButton.onclick = function(e) {
+        this.save();
+        this.close();
+    }.bind(this);
+
+    this.setSaveAction = function (action) {
+        this.save = action;
     }.bind(this);
 
     this.show = function() {
@@ -134,6 +170,10 @@ var EditInplaceToolbar = function() {
     this.hide = function() {
         this.DOM.style.display = 'none';
     }.bind(this);
+
+    this.isVisible = function() {
+        return this.DOM.style.display == 'block';
+    }
 }
 var editInplaceToolbar = new EditInplaceToolbar();
 

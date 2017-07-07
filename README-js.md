@@ -23,8 +23,6 @@ eventually add and use this polifill: https://github.com/WebReflection/dom4
 
 ## Todo
 
-- ensure that only one frame can be edited at a time
-  - block also the sidemarks?
 - get the id from the data- and fake the save + close
   - remove the border from the editable
 - retain the image plugin for medium-editor
