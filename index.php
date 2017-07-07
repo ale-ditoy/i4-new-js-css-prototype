@@ -56,6 +56,7 @@ class Image
         $this->encloser = new ContentEncloser();
     }
     public function render_edit() {
+        $this->encloser->addData('id', $this->id);
         return $this->render();
     }
     public function render() {
@@ -96,7 +97,7 @@ class ContentEncloser
         $result = [];
         $result[] = $this->tag;
         if (isset($this->id)) {
-            $result[] = 'id = "'.$this->id.'"';
+            $result[] = 'id="'.$this->id.'"';
         }
         if (!empty($this->class)) {
             $result[] = 'class="'.implode(' ', $this->class).'"';
@@ -110,7 +111,6 @@ class ContentEncloser
         return '</'.$this->tag.'>';
     }
 }
-
 class Content
 {
     private $aggregator = null;

@@ -1,7 +1,4 @@
 /**
- */
-
-/**
  * nodelists do not have a forEach method
  */
 var forEach = function (array, callback, scope) {
@@ -189,5 +186,3 @@ forEach(document.querySelectorAll('.i4-edit'), function(element) {
     editWrapper.DOM.insertBefore(sidemark.DOM, editWrapper.DOM.firstChild);
     sidemark.resize(element.offsetHeight+'px');
 });
-
-
