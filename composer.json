@@ -12,7 +12,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "git@github.com:ditoy/php-tiny-template"
+            "url": "git@github-ditoy:ditoy/php-tiny-template"
         }
     ],
     "require": {

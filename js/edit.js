@@ -1,6 +1,9 @@
 /**
  * TODO:
  * - ensure that only one frame can be edited at a time
+ *   - block also the sidemarks?
+ * - get the id from the data- and fake the save + close
+ *   - remove the border from the editable
  * - retain the image plugin for medium-editor
  *
  * possible in place text editors:
@@ -36,9 +39,15 @@ var getAncestorByClassName = function(element, className) {
     return element;
 }
 
+var EditWrapper = function() {
+    this.DOM = document.createElement('div');
+    this.DOM.className = 'i4-edit-wrapper';
+    this.DOM.innerHTML = '';
+}
+
 var EditPlaceholder = function(height) {
-    this.DOM = document.createElement('span');
-    this.DOM.className = 'i4-edit-asterisk';
+    this.DOM = document.createElement('div');
+    this.DOM.className = 'i4-edit-sidemark';
     this.DOM.innerHTML = '';
 
     this.resize = function(height) {
@@ -75,6 +84,8 @@ var EditToolbar = function() {
             if (edit.classList.contains('i4-edit-text')) {
                 edit.classList.add('i4-editable');
                 var editor = new MediumEditor('.i4-editable');
+                editInplaceToolbar.show();
+                wrapper.appendChild(editInplaceToolbar.DOM);
             }
 
             this.hide();
@@ -92,6 +103,10 @@ var EditToolbar = function() {
         this.DOM.style.left = left;
         this.DOM.style.top = top;
     }.bind(this);
+
+    this.isVisible = function() {
+        return this.DOM.style.display == 'block';
+    }
 
     this.show = function() {
         this.DOM.style.display = 'block';
@@ -123,8 +138,8 @@ var EditOverlay = function() {
 }
 var editOverlay = new EditOverlay();
 
-var EditInplaceSave = function() {
-    this.DOM = document.createElement('span');
+var EditInplaceToolbar = function() {
+    this.DOM = document.createElement('div');
     this.DOM.className = 'i4-edit-inplace-toolbar';
     this.DOM.innerHTML = '<i class="fa fa-floppy-o" aria-hidden="true"> <i class="fa fa-close" aria-hidden="true"></i>';
 
@@ -141,13 +156,7 @@ var EditInplaceSave = function() {
         this.DOM.style.display = 'none';
     }.bind(this);
 }
-var editInplaceSave = new EditInplaceSave();
-
-var EditWrapper = function() {
-    this.DOM = document.createElement('div');
-    this.DOM.className = 'i4-edit-wrapper';
-    this.DOM.innerHTML = '';
-}
+var editInplaceToolbar = new EditInplaceToolbar();
 
 forEach(document.querySelectorAll('.i4-edit'), function(element) {
     // element.style.backgroundColor = 'orange';
@@ -156,9 +165,9 @@ forEach(document.querySelectorAll('.i4-edit'), function(element) {
     parent.insertBefore(editWrapper.DOM, element);
     editWrapper.DOM.insertBefore(element, editWrapper.DOM.firstChild);
 
-    asterisk = new EditPlaceholder();
-    editWrapper.DOM.insertBefore(asterisk.DOM, editWrapper.DOM.firstChild);
-    asterisk.resize(element.offsetHeight+'px');
+    var sidemark = new EditPlaceholder();
+    editWrapper.DOM.insertBefore(sidemark.DOM, editWrapper.DOM.firstChild);
+    sidemark.resize(element.offsetHeight+'px');
 });
 
 

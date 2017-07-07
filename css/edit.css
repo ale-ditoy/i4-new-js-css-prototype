@@ -1,9 +1,12 @@
+ul {
+    margin:0px;
+}
 .i4-edit-wrapper {
     position:relative;
 }
 .i4-edit {
 }
-.i4-edit-asterisk {
+.i4-edit-sidemark {
     background-color:red;
     width:50px;
     min-height:20px;
@@ -19,23 +22,19 @@
     font-size:14pt;
     color:black;
 }
-.i4-edit-inplace {
+.i4-edit-inplace-toolbar {
+    /*
     position:absolute;
     left:0px;
-    top:0px;
+    top:-20px;
+    */
     display:none;
     background-color:white;
     font-size:14pt;
     color:black;
 }
-.i4-edit-inplace-toolbar {
-    position:absolute;
-    left:0px;
-    top:-20px;
-    display:none;
-    background-color:white;
-    font-size:14pt;
-    color:black;
+.i4-editable {
+    border:1px solid black;
 }
 .i4-edit-overlay {
     position:absolute;
