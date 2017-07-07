@@ -24,4 +24,5 @@ eventually add and use this polifill: https://github.com/WebReflection/dom4
 ## Todo
 
 - retain the image plugin for medium-editor
-
+- implement the image dropping / upload
+- closing the inplace editor should undo the changes in the editor
