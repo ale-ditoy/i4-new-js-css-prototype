@@ -103,7 +103,7 @@ class ContentEncloser
             $result[] = 'class="'.implode(' ', $this->class).'"';
         }
         foreach ($this->data as $key => $value) {
-            $result[] = 'data-'.$key.'="'.$this->value.'"';
+            $result[] = 'data-'.$key.'="'.$value.'"';
         }
         return '<'.implode(' ', $result).'>';
     }
