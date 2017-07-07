@@ -29,6 +29,10 @@ class Text
         $this->id = Id::next();
         $this->encloser = new ContentEncloser();
     }
+    public function render_edit() {
+        $this->encloser->addData('id', $this->id);
+        return $this->render();
+    }
     public function render() {
         $this->encloser->addClass('i4-edit-text');
         if ($this->type == 'text') {
@@ -51,6 +55,9 @@ class Image
         $this->id = Id::next();
         $this->encloser = new ContentEncloser();
     }
+    public function render_edit() {
+        return $this->render();
+    }
     public function render() {
         return $this->encloser->renderOpen().'<img src="'.$this->url.'">'.$this->encloser->renderClose();
     }
@@ -68,7 +75,7 @@ class Aggregator
     public function render_edit() {
         $items = array_map(function($i) {
             $i->getEncloser()->addClass('i4-edit');
-            return $i->render();
+            return $i->render_edit();
         }, $this->item);
         return implode("\n", $items);
     }
@@ -83,7 +90,7 @@ class ContentEncloser
     private $class = [];
     public function addClass($class) { $this->class[] = $class; }
     private $data = [];
-    public function addData($key, $data) { $this->data[$key] = $value; }
+    public function addData($key, $value) { $this->data[$key] = $value; }
 
     public function renderOpen() {
         $result = [];
@@ -92,13 +99,10 @@ class ContentEncloser
             $result[] = 'id = "'.$this->id.'"';
         }
         if (!empty($this->class)) {
-            $result[] = 'class = "'.implode(' ', $this->class).'"';
-        }
-        if (!empty($this->class)) {
-            $result[] = 'class = "'.implode(' ', $this->class).'"';
+            $result[] = 'class="'.implode(' ', $this->class).'"';
         }
         foreach ($this->data as $key => $value) {
-            $result[] = 'data-'.$key.' = "'.$this->value.'"';
+            $result[] = 'data-'.$key.'="'.$value.'"';
         }
         return '<'.implode(' ', $result).'>';
     }
