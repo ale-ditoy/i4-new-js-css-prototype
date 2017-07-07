@@ -67,6 +67,7 @@ var EditToolbar = function() {
                 var editor = new MediumEditor('.i4-editable');
                 editInplaceToolbar.setEditor(editor);
                 editInplaceToolbar.setSaveAction(function(e) {
+                    console.log('id', this.target.dataset.id);
                     console.log('do the saving');
                     this.close();
                 })
