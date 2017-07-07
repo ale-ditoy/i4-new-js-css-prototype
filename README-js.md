@@ -23,7 +23,5 @@ eventually add and use this polifill: https://github.com/WebReflection/dom4
 
 ## Todo
 
-- get the id from the data- and fake the save + close
-  - remove the border from the editable
 - retain the image plugin for medium-editor
 
